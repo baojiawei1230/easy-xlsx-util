@@ -1,6 +1,7 @@
 package com.xlsx.easy.oper;
 
 import com.xlsx.easy.config.DefaultSheetConfig;
+import com.xlsx.easy.exception.SheetTemplateDownloadException;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,7 @@ import java.io.OutputStream;
  * @create 2017-11-09
  * create by IntelliJ IDEA
  */
-public abstract class AbstractDownloadXSSFEasy extends DefaultSheetConfig implements java.io.Serializable{
+public abstract class AbstractXSSFEasyDownload extends DefaultSheetConfig implements java.io.Serializable{
 
     /** get Headers **/
     public abstract String[] getHeaders();
@@ -36,7 +37,7 @@ public abstract class AbstractDownloadXSSFEasy extends DefaultSheetConfig implem
             outputStream.close();
 
         }catch (Exception e){
-            throw new RuntimeException(" download the template is error ");
+            throw new SheetTemplateDownloadException("download the template error ");
         }
     }
 }

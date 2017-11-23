@@ -1,7 +1,7 @@
 package com.xlsx.easy.test;
 
-import com.xlsx.easy.oper.AbstractDownloadXSSFEasy;
-import com.xlsx.easy.oper.AbstractUploadXSSFEasy;
+import com.xlsx.easy.oper.AbstractXSSFEasyDownload;
+import com.xlsx.easy.oper.AbstractXSSFEasyUpload;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +29,7 @@ public class UploadXSSFWorkTest{
         final String[] headers = new String[]{"预订人姓名,预订人手机号"};
 
         /** upload excel template **/
-        AbstractUploadXSSFEasy uploadXSSFEasy = new AbstractUploadXSSFEasy(definitionMap, inputStream) {
+        AbstractXSSFEasyUpload uploadXSSFEasy = new AbstractXSSFEasyUpload(definitionMap, inputStream) {
             public void validate(String cellName, String value, int index) {
                 if ("预定人姓名".equals(cellName) && value != null) {
                     /** validation implements by your self **/
@@ -40,7 +40,7 @@ public class UploadXSSFWorkTest{
 
 
         /** download excel template **/
-        AbstractDownloadXSSFEasy downloadXSSFEasy = new AbstractDownloadXSSFEasy() {
+        AbstractXSSFEasyDownload downloadXSSFEasy = new AbstractXSSFEasyDownload() {
             @Override
             public String[] getHeaders() {
                 return headers;

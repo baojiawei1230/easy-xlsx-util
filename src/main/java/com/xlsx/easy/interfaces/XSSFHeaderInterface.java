@@ -2,7 +2,7 @@ package com.xlsx.easy.interfaces;
 
 /**
  *
- * getHeaders
+ * getHeaders Interface
  *
  * @Author Alex_Bao
  * @create 2017-11-09
@@ -10,6 +10,7 @@ package com.xlsx.easy.interfaces;
  */
 public interface XSSFHeaderInterface {
 
+    /** get Sheet Headers **/
     String[] getHeaders();
 
 }

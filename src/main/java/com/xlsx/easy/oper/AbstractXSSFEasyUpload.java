@@ -1,5 +1,6 @@
 package com.xlsx.easy.oper;
 
+import com.xlsx.easy.exception.IllegalSheetArgumentsException;
 import com.xlsx.easy.interfaces.XSSFValidationInterface;
 import com.xlsx.easy.utils.CellValueFormatUtils;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -18,7 +19,7 @@ import java.util.Set;
  * @create 2017-11-08
  * create by IntelliJ IDEA
  */
-public abstract class AbstractUploadXSSFEasy implements XSSFValidationInterface,java.io.Serializable {
+public abstract class AbstractXSSFEasyUpload implements XSSFValidationInterface,java.io.Serializable {
 
     /**
      * 字段Map key:字段 value:该字段是否需要进行校验
@@ -30,7 +31,7 @@ public abstract class AbstractUploadXSSFEasy implements XSSFValidationInterface,
     private InputStream fileInputStream;
 
     /** 初始化的时候进行校验 **/
-    public AbstractUploadXSSFEasy(Map<String, Boolean> definitionMap, InputStream fileInputStream) {
+    public AbstractXSSFEasyUpload(Map<String, Boolean> definitionMap, InputStream fileInputStream) {
         this.definitionMap = definitionMap;
         this.fileInputStream = fileInputStream;
         this.SheetValidate();
@@ -43,7 +44,7 @@ public abstract class AbstractUploadXSSFEasy implements XSSFValidationInterface,
         try {
             /** validate **/
             if (definitionMap.isEmpty()) {
-                throw new IllegalArgumentException("definitionMap is null");
+                throw new IllegalSheetArgumentsException("definitionMap must not be null");
             }
             XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
             Iterator<XSSFSheet> iterator = workbook.iterator();
@@ -56,7 +57,7 @@ public abstract class AbstractUploadXSSFEasy implements XSSFValidationInterface,
                     try {
                         Set<String> cellNameSet = definitionMap.keySet();
                         if (cellNameSet == null || cellNameSet.size() == 0) {
-                            throw new IllegalArgumentException("cellNameSet is null");
+                            throw new IllegalSheetArgumentsException("cellNameSet can not be null");
                         }
                         XSSFRow sheetRow = sheet.getRow(row);
                         for(int index =0 ; index < cellNameSet.size() ; index++){
@@ -74,9 +75,9 @@ public abstract class AbstractUploadXSSFEasy implements XSSFValidationInterface,
                                 }
                             }
                         }
-                    }catch (IllegalArgumentException ae) {
+                    }catch (IllegalSheetArgumentsException ae) {
                         /** illegalArgumentException **/
-                        throw new IllegalArgumentException(ae.getMessage());
+                        throw new IllegalSheetArgumentsException(ae.getMessage());
                     }
                 }
             }
