@@ -1,5 +1,7 @@
 package com.xlsx.easy.interfaces;
 
+import com.xlsx.easy.exception.IllegalSheetArgumentsException;
+
 /**
  * interface
  *
@@ -10,5 +12,5 @@ package com.xlsx.easy.interfaces;
 public interface XSSFValidationInterface {
 
     /** params validation **/
-    void validate(String cellName,String value,int index);
+    void validate(String cellName,String value,int index) throws IllegalSheetArgumentsException;
 }

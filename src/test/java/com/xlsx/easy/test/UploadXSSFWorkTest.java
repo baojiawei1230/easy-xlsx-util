@@ -1,6 +1,6 @@
 package com.xlsx.easy.test;
 
-import com.xlsx.easy.oper.AbstractXSSFEasyDownload;
+import com.xlsx.easy.exception.IllegalSheetArgumentsException;
 import com.xlsx.easy.oper.AbstractXSSFEasyUpload;
 
 import java.io.IOException;
@@ -17,39 +17,33 @@ import java.util.Map;
  */
 public class UploadXSSFWorkTest{
 
+    private Map<String,Boolean> definitionMap = new HashMap<String, Boolean>();
+    private InputStream inputStream = new InputStream() {
+        @Override
+        public int read() throws IOException {
+            return 0;
+        }
+    };
+
     // Simple Test
     public static void main(String[] args){
-        Map<String,Boolean> definitionMap = new HashMap<String, Boolean>();
-        InputStream inputStream = new InputStream() {
-            @Override
-            public int read() throws IOException {
-                return 0;
-            }
-        };
-        final String[] headers = new String[]{"预订人姓名,预订人手机号"};
+        //get definitionMap and inputStream value.
 
-        /** upload excel template **/
-        AbstractXSSFEasyUpload uploadXSSFEasy = new AbstractXSSFEasyUpload(definitionMap, inputStream) {
-            public void validate(String cellName, String value, int index) {
-                if ("预定人姓名".equals(cellName) && value != null) {
-                    /** validation implements by your self **/
+    }
 
-                }
-            }
-        };
+    protected Map<String, Boolean> getDefinitionMap() {
+        return this.definitionMap;
+    }
 
+    protected InputStream getInputStream() {
+        return this.inputStream;
+    }
 
-        /** download excel template **/
-        AbstractXSSFEasyDownload downloadXSSFEasy = new AbstractXSSFEasyDownload() {
-            @Override
-            public String[] getHeaders() {
-                return headers;
-            }
-
-            @Override
-            public String getFileName() {
-                return "订单下载";
-            }
-        };
+    /** validate method **/
+    public void validate(String cellName, String value, int index) throws IllegalSheetArgumentsException {
+        /** valildate **/
+        if("预订人姓名".equals(cellName)){
+            //....
+        }
     }
 }
