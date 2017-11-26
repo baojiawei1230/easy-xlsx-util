@@ -1,4 +1,4 @@
-package com.xlsx.easy.interfaces;
+package com.xlsx.easy.service;
 
 /**
  *

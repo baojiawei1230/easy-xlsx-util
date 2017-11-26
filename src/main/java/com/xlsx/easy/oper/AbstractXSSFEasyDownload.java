@@ -2,8 +2,8 @@ package com.xlsx.easy.oper;
 
 import com.xlsx.easy.config.DefaultSheetConfig;
 import com.xlsx.easy.exception.SheetTemplateDownloadException;
-import com.xlsx.easy.interfaces.XSSFDownloadInterface;
-import com.xlsx.easy.interfaces.XSSFFileNameInterface;
+import com.xlsx.easy.service.XSSFDownloadInterface;
+import com.xlsx.easy.service.XSSFFileNameInterface;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ public abstract class AbstractXSSFEasyDownload extends DefaultSheetConfig implem
     public abstract String[] getHeaders();
 
     /** download the template **/
-    public void downloadTemplate(HttpServletResponse response){
+    public void downloadTemplate(HttpServletResponse response, boolean haveData){
         try{
             String fileName = new String(this.getFileName().getBytes("UTF-8"),"iso-8859-1");
             /** set response parameter **/
@@ -35,7 +35,7 @@ public abstract class AbstractXSSFEasyDownload extends DefaultSheetConfig implem
 
             /** get outPutStream **/
             OutputStream outputStream = response.getOutputStream();
-            XSSFWorkbook workbook = getXSSFWorkBook();
+            XSSFWorkbook workbook = getXSSFWorkBook(haveData);
             workbook.write(outputStream);
             outputStream.close();
 

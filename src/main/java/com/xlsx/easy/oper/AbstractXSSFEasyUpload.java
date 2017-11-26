@@ -1,7 +1,8 @@
 package com.xlsx.easy.oper;
 
+import com.xlsx.easy.config.BuildContext;
 import com.xlsx.easy.exception.IllegalSheetArgumentsException;
-import com.xlsx.easy.interfaces.XSSFValidationInterface;
+import com.xlsx.easy.service.XSSFValidationInterface;
 import com.xlsx.easy.utils.CellValueFormatUtils;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -33,16 +34,25 @@ public abstract class AbstractXSSFEasyUpload implements XSSFValidationInterface{
 
     /** 初始化的时候进行校验 **/
     public AbstractXSSFEasyUpload() {
-        this.definitionMap = this.getDefinitionMap();
-        this.fileInputStream = this.getInputStream();
+        this.buildParam();
         this.SheetValidate();
     }
 
+    private void buildParam(){
+        BuildContext buildContext = this.build();
+        this.definitionMap = buildContext.getDefinitionMap();
+        this.fileInputStream = buildContext.getInputStream();
+    }
+
+
     /** get DefinitionMap **/
-    protected abstract Map<String,Boolean> getDefinitionMap();
+    //protected abstract Map<String,Boolean> getDefinitionMap();
 
     /** get FileInputStream **/
-    protected abstract InputStream getInputStream();
+    //protected abstract InputStream getInputStream();
+
+    /** build **/
+    protected abstract BuildContext build();
 
     /**
      * 参数校验
@@ -50,7 +60,7 @@ public abstract class AbstractXSSFEasyUpload implements XSSFValidationInterface{
     public void SheetValidate() {
         try {
             /** validate definitionMap **/
-            if (definitionMap.isEmpty()) {
+            if (definitionMap.isEmpty() || definitionMap == null) {
                 throw new IllegalSheetArgumentsException("definitionMap must not be null");
             }
             /** validate inputStream **/

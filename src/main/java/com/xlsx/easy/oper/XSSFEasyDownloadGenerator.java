@@ -1,5 +1,9 @@
 package com.xlsx.easy.oper;
 
+import com.xlsx.easy.dto.BaseQueryDto;
+
+import java.util.List;
+
 /**
  * XSSFEasyDownloadGenerator
  *
@@ -22,5 +26,10 @@ public class XSSFEasyDownloadGenerator extends AbstractXSSFEasyDownload {
     /** you need to override this method **/
     public String[] getHeaders() {
         return new String[0];
+    }
+
+    /** you need to override this method **/
+    public List queryDataList(BaseQueryDto condition) {
+        return null;
     }
 }

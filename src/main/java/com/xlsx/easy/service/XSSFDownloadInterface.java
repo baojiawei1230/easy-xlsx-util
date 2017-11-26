@@ -1,4 +1,4 @@
-package com.xlsx.easy.interfaces;
+package com.xlsx.easy.service;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
  * @create 2017-11-24
  * create by IntelliJ IDEA
  */
-public interface XSSFDownloadInterface {
+public interface XSSFDownloadInterface{
     /** download template **/
-    void downloadTemplate(HttpServletResponse response);
+    void downloadTemplate(HttpServletResponse response,boolean haveData);
 }

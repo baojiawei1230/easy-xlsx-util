@@ -1,9 +1,13 @@
 package com.xlsx.easy.config;
 
-import com.xlsx.easy.interfaces.XSSFHeaderInterface;
+import com.xlsx.easy.dto.BaseQueryDto;
+import com.xlsx.easy.service.TemplateItemReader;
+import com.xlsx.easy.service.XSSFHeaderInterface;
 import org.apache.poi.xssf.usermodel.*;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Excel表单下载配置
@@ -12,7 +16,7 @@ import java.awt.*;
  * @create 2017-11-08
  * create by IntelliJ IDEA
  */
-public abstract class DefaultSheetConfig implements XSSFHeaderInterface {
+public abstract class DefaultSheetConfig implements XSSFHeaderInterface,TemplateItemReader {
 
     /** get download or update fileName **/
     public abstract String getFileName();
@@ -24,15 +28,15 @@ public abstract class DefaultSheetConfig implements XSSFHeaderInterface {
      */
     public abstract String[] getHeaders();
 
-    public XSSFWorkbook getXSSFWorkBook(){
-        return getDefaultXSSFWorkBook(getFileName(),getHeaders());
+    public XSSFWorkbook getXSSFWorkBook(boolean haveData){
+        return getDefaultXSSFWorkBook(getFileName(),getHeaders(),haveData);
     }
 
 
-    private XSSFWorkbook getDefaultXSSFWorkBook(String fileName, String[] heads) {
+    private XSSFWorkbook getDefaultXSSFWorkBook(String fileName, String[] heads,boolean haveData) {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet(fileName);
-        setHeaderStyleAndValue(heads,workbook,sheet);
+        setHeaderStyleAndValue(heads,workbook,sheet,haveData);
         return workbook;
     }
 
@@ -43,7 +47,7 @@ public abstract class DefaultSheetConfig implements XSSFHeaderInterface {
      * @param workbook workbook
      * @param sheet sheet
      */
-    private void setHeaderStyleAndValue(String[] headers, XSSFWorkbook workbook, XSSFSheet sheet) {
+    private void setHeaderStyleAndValue(String[] headers, XSSFWorkbook workbook, XSSFSheet sheet,boolean haveData) {
         XSSFCellStyle cellStyle = workbook.createCellStyle();
 
         /** set style **/
@@ -61,6 +65,9 @@ public abstract class DefaultSheetConfig implements XSSFHeaderInterface {
         font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
         cellStyle.setFont(font);
 
+        //TODO 返回查询的对象,然后针对属性封装.
+        //List list = this.queryDataList();
+
         /** create the style and value of first cell  **/
         XSSFRow row = sheet.createRow(0);
         for(int i = 0 ; i < headers.length ; i++){
@@ -69,5 +76,4 @@ public abstract class DefaultSheetConfig implements XSSFHeaderInterface {
             cell.setCellValue(headers[i]);
         }
     }
-
 }
